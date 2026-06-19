@@ -16,14 +16,12 @@ def generate_text(prompt):
         num_return_sequences=1,
         pad_token_id=generator.tokenizer.eos_token_id
     )
-
     text = result[0]["generated_text"]
-    words = text.split()
-    return " ".join(words[:250])
+    return " ".join(text.split()[:250])
 
 iface = gr.Interface(
     fn=generate_text,
-    inputs=gr.Textbox(lines=5, label="Prompt", placeholder="Enter your prompt here"),
+    inputs=gr.Textbox(lines=5, label="Prompt"),
     outputs=gr.Textbox(lines=12, label="Generated Text"),
     title="GPT-2 Text Generator",
     description="Generate meaningful text from a prompt using a pretrained GPT model."

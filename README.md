@@ -3,8 +3,8 @@ title: GPT Text Generator
 emoji: 🤗
 colorFrom: blue
 colorTo: green
-sdk: gradio
-sdk_version: "4.44.1"
+sdk: docker
+sdk_version: "latest"
 python_version: "3.10"
 app_file: app.py
 pinned: false
@@ -12,24 +12,26 @@ pinned: false
 
 # GPT Text Generator
 
-This app generates text from a user prompt using a pretrained GPT model from Hugging Face Transformers.
+A Flask app on Hugging Face Spaces that generates meaningful text from a user prompt using a pretrained GPT model from the Hugging Face Transformers library.
 
 ## Features
 
-- Enter any prompt.
-- Generate up to 250 new tokens.
-- Display the generated text in the app.
-
-## How it works
-
-The app uses a GPT-style causal language model and the Hugging Face `text-generation` pipeline. For GPT-2 style models, setting the pad token to the EOS token helps avoid padding warnings [web:13][web:16].
+- Enter a prompt.
+- Generate text with a pretrained GPT model.
+- Limit output to about 250 words.
+- Simple web interface.
 
 ## Files
 
-- `app.py` - main application file.
-- `requirements.txt` - Python dependencies.
+- `app.py` — main Flask application.
+- `requirements.txt` — Python dependencies.
+- `Dockerfile` — needed for Docker Spaces.
 
-## Installation
+## How it works
+
+The app uses the Hugging Face `text-generation` pipeline with `gpt2`. It generates up to 250 new tokens and then trims the final response to 250 words.
+
+## Install locally
 
 ```bash
 pip install -r requirements.txt
@@ -41,9 +43,9 @@ pip install -r requirements.txt
 python app.py
 ```
 
-## Hugging Face Space notes
+## Hugging Face Spaces note
 
-Make sure `app_file: app.py` matches your actual file name, and keep the YAML block at the very top of the README. Hugging Face Spaces reads this metadata directly from `README.md` [web:42][web:44].
+This Space is configured as a Docker Space, so the app should listen on port 7860 and use `app.py` as the main file.
 
 ## Example prompt
 

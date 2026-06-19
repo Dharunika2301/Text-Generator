@@ -1,77 +1,52 @@
-
+---
+title: GPT Text Generator
+emoji: 🤗
+colorFrom: blue
+colorTo: green
+sdk: gradio
+sdk_version: "4.44.1"
+python_version: "3.10"
+app_file: app.py
+pinned: false
+---
 
 # GPT Text Generator
 
-This is a simple Flask web application that uses a pretrained GPT model from the Hugging Face Transformers library to generate text from a user prompt.
+This app generates text from a user prompt using a pretrained GPT model from Hugging Face Transformers.
 
 ## Features
 
-- Enter a prompt in a web form.
-- Generate text using a pretrained GPT model.
-- Display the generated output in the browser.
-- Supports up to 250 generated tokens.
+- Enter any prompt.
+- Generate up to 250 new tokens.
+- Display the generated text in the app.
 
-## Requirements
+## How it works
 
-- Python 3.10 or later
-- Flask
-- Transformers
-- PyTorch
-- SentencePiece
+The app uses a GPT-style causal language model and the Hugging Face `text-generation` pipeline. For GPT-2 style models, setting the pad token to the EOS token helps avoid padding warnings [web:13][web:16].
+
+## Files
+
+- `app.py` - main application file.
+- `requirements.txt` - Python dependencies.
 
 ## Installation
-
-1. Clone this repository or download the files.
-2. Open a terminal in the project folder.
-3. Install the required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Project Files
-
-- `app.py` — Main Flask application.
-- `requirements.txt` — Python dependencies.
-- `templates/` — Optional folder for HTML templates if you move HTML out of `app.py`.
-
-## Run the App
-
-Start the application with:
+## Run locally
 
 ```bash
 python app.py
 ```
 
-Then open your browser and go to:
+## Hugging Face Space notes
 
-```bash
-http://127.0.0.1:5000
-```
+Make sure `app_file: app.py` matches your actual file name, and keep the YAML block at the very top of the README. Hugging Face Spaces reads this metadata directly from `README.md` [web:42][web:44].
 
-## How It Works
-
-- The user enters a prompt in the text box.
-- The app sends the prompt to a pretrained GPT model.
-- The model generates text using `max_new_tokens=250`.
-- The generated text is shown on the page.
-
-## Notes
-
-- `max_new_tokens=250` limits the model to generating up to 250 new tokens.
-- If you want exactly 250 words, you may need extra word-trimming logic after generation.
-- If you see warnings about padding, the app sets the pad token to the EOS token for GPT-style models.
-
-## Example Prompt
+## Example prompt
 
 ```text
 What is the importance of recycling?
 ```
-
-## Example Output
-
-The output will vary each time because the model generates text probabilistically.
-
-## License
-
-This project is for learning and demonstration purposes.

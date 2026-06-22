@@ -1,12 +1,25 @@
-import gradio as gr
+from flask import Flask, render_template, request, jsonify
 from transformers import pipeline
+
+app = Flask(__name__)
 
 generator = pipeline(
     "text-generation",
     model="gpt2"
 )
 
-def generate_text(prompt):
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/generate', methods=['POST'])
+def generate():
+    data = request.get_json(silent=True) or {}
+    prompt = data.get('prompt', '').strip()
+
+    if not prompt:
+        return jsonify({'error': 'Prompt is required.'}), 400
+
     result = generator(
         prompt,
         max_new_tokens=150,
@@ -14,14 +27,7 @@ def generate_text(prompt):
         temperature=0.7
     )
 
-    return result[0]["generated_text"]
+    return jsonify({'generated_text': result[0]['generated_text']})
 
-iface = gr.Interface(
-    fn=generate_text,
-    inputs=gr.Textbox(lines=5, label="Prompt"),
-    outputs=gr.Textbox(lines=10, label="Generated Text"),
-    title="GPT-2 Text Generator"
-)
-
-if __name__ == "__main__":
-    iface.launch(server_name="0.0.0.0")
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=7860, debug=True)
